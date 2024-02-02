@@ -18,6 +18,8 @@ class Scanner
 
   def scanToken()
 
+    for c in char_list
+
   end
 
   def scanNextToken()
