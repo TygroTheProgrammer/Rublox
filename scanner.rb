@@ -2,8 +2,6 @@ require './token.rb'
 
 class Scanner
 
-  # Local Variables
-
   def initialize(scan_src)
     @src = File.open(scan_src)
     @char_list = @src.read.split("")
@@ -14,20 +12,23 @@ class Scanner
   end
 
 
-  # Functions
+  def scanTokens()
 
-  def scanToken()
+
+    for c in char_list
+
+    end
 
     for c in char_list
 
   end
 
-  def scanNextToken()
 
-  end
 
-  def addToken(tkn)
-    @token_list.append(tkn)
-  end
 
 end
+
+
+
+
+
