@@ -1,3 +1,4 @@
+# Define token types
 module TOKEN_TYPE
   # Single Character
   LEFTPARN = 0
@@ -6,7 +7,6 @@ module TOKEN_TYPE
 
 
 end
-
 
 
 class Token
