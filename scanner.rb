@@ -19,9 +19,9 @@ class Scanner
 
     end
 
-    for c in char_list
-
   end
+
+
 
 
 
