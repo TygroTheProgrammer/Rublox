@@ -14,15 +14,12 @@ class Scanner
 
   def scanTokens()
 
-<<<<<<< Updated upstream
-=======
+
     for c in char_list
 
     end
->>>>>>> Stashed changes
+    
   end
-
-
 
 
 
