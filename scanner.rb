@@ -3,23 +3,24 @@ require './token.rb'
 class Scanner
 
   def initialize(scan_src)
-    @src = File.open(scan_src)
-    @char_list = @src.read.split("")
-    @current_idx = 0
-    @start_idx = 0
-    @token_list = []
-
+    @src = File.open(scan_src).read.split("")
+    @tokens = []
+    File.close(scan_src)
   end
 
+  def is_at_end
+    return (current)
+  end
 
-  def scanTokens()
+  def scanTokens
+    while (is_at_end)
 
-
-    for c in char_list
 
     end
 
   end
+
+
 
 
 

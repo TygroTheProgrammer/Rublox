@@ -4,22 +4,30 @@ require './token.rb'
 
 
 class Lox
+
+  @@had_error = false
   def main
+    # Handles too many arguments
     if ARGV.length > 1
       puts("Usage: rublox [script]")
     elsif ARGV.length == 1
-
-      runFile(ARGV[0])
+      # Directly runs file in one command
+      run_file(ARGV[1])
     else
-      runPrompt
+      # Opens run prompt
+      run_prompt
     end
-
-
 
   end
 
-  def run(src)
-    scanner = Scanner.new(src)
+
+
+  # Runs specified Lox path
+  def run(path)
+    if (@@had_error == true)
+      exit()
+    end
+    scanner = Scanner.new(path)
     tokens = scanner.scanTokens
 
     tokens.each { |tkn|
@@ -27,34 +35,43 @@ class Lox
     }
   end
 
-  #Wraps around the run() function
-  def runFile(path)
+  # Wraps around the run() function
+  def run_file(path)
 
   end
 
-  def runPrompt
-
-
-
+  # Prompts input
+  def run_prompt
     while 1 == 1
       print("> ")
       line = gets.chomp
 
-      if line == nil
+      if line == ""
         break
       end
       run(line)
-
-
-
+      @@had_error = false
     end
 
   end
 
+  def error(line, message)
+    report(line, "", message)
+  end
+
+
+  def report(line, where, message)
+    puts("[line #{line}] Error #{where}  : #{message}")
+    @@had_error = true
+  end
 
 end
 
 
+
+tst = Token.new(TOKEN_TYPE::GREATER, "<", "<", 0 )
+
+puts(tst)
 
 program = Lox.new
 
