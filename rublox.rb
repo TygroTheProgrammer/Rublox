@@ -12,7 +12,8 @@ class Lox
       puts("Usage: rublox [script]")
     elsif ARGV.length == 1
       # Directly runs file in one command
-      run_file(ARGV[1])
+      puts(ARGV[0])
+      run_file(ARGV[0])
     else
       # Opens run prompt
       run_prompt
@@ -28,7 +29,7 @@ class Lox
       exit()
     end
     scanner = Scanner.new(path)
-    tokens = scanner.scanTokens
+    tokens = scanner.scan_tokens
 
     tokens.each { |tkn|
       puts tkn
@@ -37,7 +38,7 @@ class Lox
 
   # Wraps around the run() function
   def run_file(path)
-
+    run(path)
   end
 
   # Prompts input
@@ -69,9 +70,7 @@ end
 
 
 
-tst = Token.new(TOKEN_TYPE::GREATER, "<", "<", 0 )
 
-puts(tst)
 
 program = Lox.new
 
