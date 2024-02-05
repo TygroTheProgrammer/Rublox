@@ -39,7 +39,10 @@ module TOKEN_TYPE
   TRUE = 32
   VAR = 33
   WHILE = 34
-  EOF = 35
+
+  # Special
+  NEW_LINE = 35
+  EOF = 36
 
 
 end
@@ -65,7 +68,8 @@ class Token
           TOKEN_TYPE::MINUS => "MINUS",
           TOKEN_TYPE::PLUS => "PLUS",
           TOKEN_TYPE::SEMICOLON => "SEMICOLON",
-          TOKEN_TYPE::EOF => "EOF",
+          TOKEN_TYPE::NEW_LINE => "NEW_LINE",
+          TOKEN_TYPE::EOF => "EOF"
         }
 
       type_map.default = "UNRECOGNIZED TOKEN"
@@ -75,7 +79,7 @@ class Token
 
 
     def to_s
-      return ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+      return "#{@tkn_line} " +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
     end
 
   end

@@ -2,7 +2,7 @@ require './token.rb'
 
 class Scanner
   def initialize(src_string)
-    @src = src_string.split("")
+    @src = src_string.chars
     @tokens = []
     @start_pos = 0
     @next_pos = 0
@@ -24,6 +24,10 @@ class Scanner
 
   def add_token(* args)
     text = @src[@start_pos]
+
+    if text == "\n"
+      text = '\n'
+    end
     case args.size
     when 1
       @tokens.append(Token.new(args[0], text, nil, @line))
@@ -57,6 +61,9 @@ class Scanner
       add_token(TOKEN_TYPE::SEMICOLON)
     when '*'
       add_token(TOKEN_TYPE::STAR)
+    when "\n"
+      add_token(TOKEN_TYPE::NEW_LINE)
+      @line += 1
     end
 
   end
