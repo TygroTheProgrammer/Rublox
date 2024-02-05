@@ -24,13 +24,13 @@ class Lox
 
 
   # Runs specified Lox path
-  def run(path)
+  def run(src)
     #TODO: Make this function capable of also reading normal text
 
     if (@@had_error == true)
       exit()
     end
-    scanner = Scanner.new(path)
+    scanner = Scanner.new(src)
     tokens = scanner.scan_all_tokens
 
     tokens.each { |tkn|
@@ -40,7 +40,8 @@ class Lox
 
   # Wraps around the run() function
   def run_file(path)
-    run(path)
+    src = File.open(path).read
+    run(src)
   end
 
   # Prompts input

@@ -1,8 +1,8 @@
 require './token.rb'
 
 class Scanner
-  def initialize(path)
-    @src = File.open(path).read.split("")
+  def initialize(src_string)
+    @src = src_string.split("")
     @tokens = []
     @start_pos = 0
     @next_pos = 0

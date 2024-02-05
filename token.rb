@@ -75,7 +75,7 @@ class Token
 
 
     def to_s
-      return "[" + type_to_str(@tkn_type) + "] " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+      return ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
     end
 
   end
