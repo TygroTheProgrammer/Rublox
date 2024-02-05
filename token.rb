@@ -48,14 +48,22 @@ module TOKEN_TYPE
 end
 
 
+# Class desc: Represents the smallest lexical unit in the Lox language
 class Token
   def initialize(type, lexeme, literal, line)
+
+    # ============================================= #
+    # Class Variables
+    # ============================================= #
+
     @tkn_type = type
     @tkn_lexeme = lexeme
     @tkn_literal = literal
     @tkn_line = line
 
 
+
+    # Function desc: Maps TOKEN_TYPE constants to string equivalents
     def type_to_str(type)
       type_map =
         {
@@ -68,10 +76,34 @@ class Token
           TOKEN_TYPE::MINUS => "MINUS",
           TOKEN_TYPE::PLUS => "PLUS",
           TOKEN_TYPE::SEMICOLON => "SEMICOLON",
+          TOKEN_TYPE::SLASH => "SLASH",
+          TOKEN_TYPE::STAR => "STAR",
+          TOKEN_TYPE::BANG => "BANG",
+          TOKEN_TYPE::BANG_EQUAL => "BANG_EQUAL",
+          TOKEN_TYPE::EQUAL => "EQUAL",
+          TOKEN_TYPE::EQUAL_EQUAL => "EQUAL_EQUAL",
+          TOKEN_TYPE::GREATER => "GREATER",
+          TOKEN_TYPE::GREATER_EQUAL => "GREATER_EQUAL",
+          TOKEN_TYPE::LESS => "LESS",
+          TOKEN_TYPE::LESS_EQUAL => "LESS_EQUAL",
+          TOKEN_TYPE::AND => "AND",
+          TOKEN_TYPE::CLASS => "CLASS",
+          TOKEN_TYPE::ELSE => "ELSE",
+          TOKEN_TYPE::FALSE => "FALSE",
+          TOKEN_TYPE::FUN => "FUN",
+          TOKEN_TYPE::FOR => "FOR",
+          TOKEN_TYPE::IF => "IF",
+          TOKEN_TYPE::NIL => "NIL",
+          TOKEN_TYPE::OR => "OR",
+          TOKEN_TYPE::PRINT => "PRINT",
+          TOKEN_TYPE::RETURN => "RETURN",
+          TOKEN_TYPE::SUPER => "SUPER",
+          TOKEN_TYPE::TRUE => "TRUE",
+          TOKEN_TYPE::VAR => "VAR",
+          TOKEN_TYPE::WHILE => "WHILE",
           TOKEN_TYPE::NEW_LINE => "NEW_LINE",
           TOKEN_TYPE::EOF => "EOF"
         }
-
       type_map.default = "UNRECOGNIZED TOKEN"
 
       return type_map[type].to_s
@@ -79,9 +111,10 @@ class Token
 
 
     def to_s
+      # Format: (line #) [TOKEN_TYPE] (char representation) (literal)
       return "#{@tkn_line} " +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
     end
 
   end
-
 end
+# EOF

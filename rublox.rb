@@ -3,9 +3,18 @@ require './token.rb'
 
 
 
+# Class desc: Handles the processing of the Lox langauge
 class Lox
 
+  # ============================================= #
+  # Class Variables
+  # ============================================= #
+
   @@had_error = false
+
+  # ============================================= #
+  # Primary Lox Functions
+  # ============================================= #
   def main
     # Handles too many arguments
     if ARGV.length > 1
@@ -23,9 +32,9 @@ class Lox
 
 
 
-  # Runs specified Lox path
+
+  # Function desc: Runs a given Lox program
   def run(src)
-    #TODO: Make this function capable of also reading normal text
 
     if (@@had_error == true)
       exit()
@@ -38,13 +47,13 @@ class Lox
     }
   end
 
-  # Wraps around the run() function
+  # Function desc: Runs a given Lox path
   def run_file(path)
     src = File.open(path).read
     run(src)
   end
 
-  # Prompts input
+  # Function desc: Prompts input
   def run_prompt
     while 1 == 1
       print("> ")
@@ -59,11 +68,17 @@ class Lox
 
   end
 
+
+  # ============================================= #
+  # Error Handling
+  # ============================================= #
+
+  # Function desc: Handles errors
   def error(line, message)
     report(line, "", message)
   end
 
-
+  # Function desc: Displays errors
   def report(line, where, message)
     puts("[line #{line}] Error #{where}  : #{message}")
     @@had_error = true
@@ -72,9 +87,10 @@ class Lox
 end
 
 
-
-
-
 program = Lox.new
 
+# Runs Lox
 program.main
+
+
+# EOF
