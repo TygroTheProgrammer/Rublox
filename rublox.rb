@@ -3,7 +3,7 @@ require './token.rb'
 
 
 
-# Class desc: Handles the processing of the Lox langauge
+# Class desc: Handles the processing of the Lox language
 class Lox
 
   # ============================================= #
@@ -18,7 +18,7 @@ class Lox
   def main
     # Handles too many arguments
     if ARGV.length > 1
-      puts("Usage: rublox [script]")
+      puts("Usage: rublox.rb [script]")
     elsif ARGV.length == 1
       # Directly runs file in one command
       puts(ARGV[0])
