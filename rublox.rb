@@ -21,7 +21,6 @@ class Lox
       puts("Usage: rublox.rb [script]")
     elsif ARGV.length == 1
       # Directly runs file in one command
-      puts(ARGV[0])
       run_file(ARGV[0])
     else
       # Opens run prompt
