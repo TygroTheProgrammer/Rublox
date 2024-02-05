@@ -4,27 +4,26 @@ class Scanner
   def initialize(path)
     @src = File.open(path).read.split("")
     @tokens = []
-    @start = 0
-    @current = 0
+    @start_pos = 0
+    @next_pos = 0
     @line = 1
-    # File.close(scan_src)
   end
 
   def is_at_end
-    return (@current >= @src.length)
+    return (@next_pos >= @src.length)
   end
 
   # Helper Functions
 
   def advance
-    current_char = @src[@current]
-    @current += 1
+    current_char = @src[@next_pos]
+    @next_pos += 1
     return current_char
   end
 
 
   def add_token(* args)
-    text = @src[@start..@current]
+    text = @src[@start_pos]
     case args.size
     when 1
       @tokens.append(Token.new(args[0], text, nil, @line))
@@ -33,6 +32,8 @@ class Scanner
     end
   end
 
+
+  # Assigns each detected token a value
   def scan_token
     c = advance
     case c
@@ -60,9 +61,9 @@ class Scanner
 
   end
 
-  def scan_tokens
+  def scan_all_tokens
     while (!is_at_end)
-      @start = @current
+      @start_pos = @next_pos
       scan_token
     end
     @tokens.append(Token.new(TOKEN_TYPE::EOF, "", nil, @line))
@@ -71,11 +72,4 @@ class Scanner
 
   end
 
-
-
 end
-
-
-
-
-

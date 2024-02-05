@@ -25,11 +25,13 @@ class Lox
 
   # Runs specified Lox path
   def run(path)
+    #TODO: Make this function capable of also reading normal text
+
     if (@@had_error == true)
       exit()
     end
     scanner = Scanner.new(path)
-    tokens = scanner.scan_tokens
+    tokens = scanner.scan_all_tokens
 
     tokens.each { |tkn|
       puts tkn

@@ -40,6 +40,8 @@ module TOKEN_TYPE
   VAR = 33
   WHILE = 34
   EOF = 35
+
+
 end
 
 
@@ -50,13 +52,32 @@ class Token
     @tkn_literal = literal
     @tkn_line = line
 
-    def to_s
-      return @tkn_type.to_s + " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+
+    def type_to_str(type)
+      type_map =
+        {
+          TOKEN_TYPE::LEFT_PAREN => "LEFT_PAREN",
+          TOKEN_TYPE::RIGHT_PAREN => "RIGHT_PAREN",
+          TOKEN_TYPE::LEFT_BRACE => "LEFT_BRACE",
+          TOKEN_TYPE::RIGHT_BRACE => "RIGHT_BRACE",
+          TOKEN_TYPE::COMMA => "COMMA",
+          TOKEN_TYPE::DOT => "DOT",
+          TOKEN_TYPE::MINUS => "MINUS",
+          TOKEN_TYPE::PLUS => "PLUS",
+          TOKEN_TYPE::SEMICOLON => "SEMICOLON",
+          TOKEN_TYPE::EOF => "EOF",
+        }
+
+      type_map.default = "UNRECOGNIZED TOKEN"
+
+      return type_map[type].to_s
     end
 
 
+    def to_s
+      return "[" + type_to_str(@tkn_type) + "] " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+    end
+
   end
-
-
 
 end
