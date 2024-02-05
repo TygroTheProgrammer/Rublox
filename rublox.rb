@@ -1,3 +1,11 @@
+# FILE: rublox.rb
+# CLASS: Lox
+# PURPOSE: Handles the processing of the Lox language
+# AUTHOR(S): Isaiah Parker
+
+# ============================================= #
+# Dependencies
+# ============================================= #
 require './scanner.rb'
 require './token.rb'
 

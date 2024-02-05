@@ -1,3 +1,11 @@
+# FILE: scanner.rb
+# CLASS: Scanner
+# PURPOSE: Finds and parses tokens
+# AUTHOR(S): Isaiah Parker
+
+# ============================================= #
+# Dependencies
+# ============================================= #
 require './token.rb'
 
 # Class desc: Finds and parses tokens

@@ -1,3 +1,9 @@
+# FILE: token.rb
+# CLASS: Token
+# PURPOSE: Represents the smallest lexical unit in the Lox language
+# AUTHOR(S): Isaiah Parker
+
+
 # Define token types
 module TOKEN_TYPE
   # Single Character
