@@ -4,6 +4,10 @@ Rublox is a Ruby based implementation of the Lox language as described in Crafti
 ## Dependencies
 - [Ruby 3.2.2](https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-2-2-released/) or higher
 
+## Download
+```bash
+git clone https://github.com/TygroTheProgrammer/Rublox
+```
 ## Usage
 To start the Rublox in-terminal interpreter, use the following:
 
