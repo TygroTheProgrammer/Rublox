@@ -9,7 +9,7 @@ Rublox is a Ruby based implementation of the Lox language as described in Crafti
 git clone https://github.com/TygroTheProgrammer/Rublox
 ```
 ## Usage
-To start the Rublox in-terminal interpreter, use the following:
+While in the project folder's directory, start the Rublox in-terminal interpreter by using the following command:
 
 ```bash
 ruby rublox.rb
