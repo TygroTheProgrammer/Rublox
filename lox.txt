@@ -1,9 +1,11 @@
-(){}.-+{}{}A
-
-{}{}{
-;
-;
-;
-;
-
+//This is a comment
+<=
+{
+error
 }
+()
+==
+//This is also a comment
+=
+}
+/

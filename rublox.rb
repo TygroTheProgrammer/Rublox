@@ -38,15 +38,13 @@ class Lox
   end
 
 
-
-
   # Function desc: Runs a given Lox program
   def run(src)
 
     if (@@had_error == true)
       exit()
     end
-    scanner = Scanner.new(src)
+    scanner = Scanner.new(src, self)
     tokens = scanner.scan_all_tokens
 
     tokens.each { |tkn|
@@ -81,13 +79,13 @@ class Lox
   # ============================================= #
 
   # Function desc: Handles errors
-  def error(line, message)
-    report(line, "", message)
+  def error(line, column, message)
+    report(line, column,"", message)
   end
 
   # Function desc: Displays errors
-  def report(line, where, message)
-    puts("[line #{line}] Error #{where}  : #{message}")
+  def report(line, column, where, message)
+    puts("[line #{line}] [column #{column}] Error #{where}  : #{message}")
     @@had_error = true
   end
 

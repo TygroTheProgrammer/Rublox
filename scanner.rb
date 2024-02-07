@@ -10,17 +10,24 @@ require './token.rb'
 
 # Class desc: Finds and parses tokens
 class Scanner
-  def initialize(src_string)
+  def initialize(src_string, lox)
 
     # ============================================= #
     # Class Variables
     # ============================================= #
 
-    @src = src_string.chars
+    @src = src_string
+    @lox_out = lox
+    
     @token_list = []
+    
     @start_pos = 0
     @next_pos = 0
-    @line = 1
+    
+    
+    @line_pos = 1
+    @col_pos = 0
+    
   end
 
   # ============================================= #
@@ -32,13 +39,58 @@ class Scanner
     return (@next_pos >= @src.length)
   end
 
+  # Function desc: Moves char pointer to next position
+  def advance_pos
+    result_char = ''
 
-  # Function desc: Returns current char and moves char pointer to next position
-  def advance
-    current_char = @src[@next_pos]
+    if is_at_end
+      result_char = "\0"
+    end
+
+
+
     @next_pos += 1
+    @col_pos += 1
+  end
+  
+  # Function desc: Returns current char and moves char pointer to next position
+  def grab_advance
+    current_char = @src[@next_pos]
+
+    advance_pos
+
     return current_char
   end
+
+  def match(expected)
+    if (is_at_end)
+      return false
+    end
+
+    if (@src[@next_pos] != expected)
+      return false
+    end
+    advance_pos
+    
+    return true
+  end
+
+  # Function desc: Returns the next character without consuming it
+  def peek
+    if is_at_end
+      return "\0"
+    end
+    return @src[@next_pos]
+  end
+
+  # ============================================= #
+  # Literal Handling
+  # ============================================= #
+
+  def make_string_literal
+    
+  end
+
 
   # ============================================= #
   # Token Handling
@@ -48,7 +100,10 @@ class Scanner
   # Function desc: Adds given token type to token_list
   # Note: Has two versions based on amount of arguments given
   def add_token(* args)
-    text = @src[@start_pos]
+    text = ""
+    for c in @start_pos..(@next_pos - 1) do
+      text += @src[c].to_s
+    end
 
     # Replaces literal '\n' with a text version
     if text == "\n"
@@ -56,16 +111,16 @@ class Scanner
     end
     case args.size
     when 1 # add_token(TOKEN_TYPE)
-      @token_list.append(Token.new(args[0], text, nil, @line))
+      @token_list.append(Token.new(args[0], text, nil, @line_pos, @col_pos))
     when 2 # add_token(TOKEN_TYPE, literal_value)
-      @token_list.append(Token.new(args[0], text, args[1], @line))
+      @token_list.append(Token.new(args[0], text, args[1], @line_pos, @col_pos))
     end
   end
 
 
   # Function desc: Assigns each detected token a type, an adds them to the list
   def scan_token
-    c = advance
+    c = grab_advance
     case c
     when '('
       add_token(TOKEN_TYPE::LEFT_PAREN)
@@ -87,10 +142,34 @@ class Scanner
       add_token(TOKEN_TYPE::SEMICOLON)
     when '*'
       add_token(TOKEN_TYPE::STAR)
+    when '!'
+      add_token(match('=') ? TOKEN_TYPE::BANG_EQUAL : TOKEN_TYPE::BANG)
+    when '='
+      add_token(match('=') ? TOKEN_TYPE::EQUAL_EQUAL : TOKEN_TYPE::EQUAL)
+    when '<'
+      add_token(match('=') ? TOKEN_TYPE::LESS_EQUAL : TOKEN_TYPE::LESS)
+    when '>'
+      add_token(match('=') ? TOKEN_TYPE::GREATER_EQUAL : TOKEN_TYPE::GREATER)
+    when '/'
+      if match('/')
+        # Consumes every character on line with comment
+        while (peek != "\n" && !is_at_end)
+          advance_pos
+        end
+      else
+        add_token(TOKEN_TYPE::SLASH)
+      end
+    when ' ',"\r","\t"
     when "\n"
-      add_token(TOKEN_TYPE::NEW_LINE)
-      @line += 1
+      # add_token(TOKEN_TYPE::NEW_LINE)
+      @line_pos += 1
+      @col_pos = 0
+    when '"'
+
+    else
+      @lox_out.error(@line_pos, @col_pos, "Unexpected character")
     end
+
 
   end
 
@@ -100,7 +179,7 @@ class Scanner
       @start_pos = @next_pos
       scan_token
     end
-    @token_list.append(Token.new(TOKEN_TYPE::EOF, "", nil, @line))
+    @token_list.append(Token.new(TOKEN_TYPE::EOF, "", nil, @line_pos, @col_pos))
 
     return @token_list
 

@@ -56,7 +56,7 @@ end
 
 # Class desc: Represents the smallest lexical unit in the Lox language
 class Token
-  def initialize(type, lexeme, literal, line)
+  def initialize(type, lexeme, literal, line, column)
 
     # ============================================= #
     # Class Variables
@@ -66,6 +66,7 @@ class Token
     @tkn_lexeme = lexeme
     @tkn_literal = literal
     @tkn_line = line
+    @tkn_column = column
 
 
 
@@ -118,7 +119,7 @@ class Token
 
     def to_s
       # Format: (line #) [TOKEN_TYPE] (char representation) (literal)
-      return "#{@tkn_line} ".ljust(6) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+      return "[line #{@tkn_line}] [column #{@tkn_column}] ".ljust(6) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
     end
 
   end
