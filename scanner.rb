@@ -27,6 +27,9 @@ class Scanner
     
     @line_pos = 1
     @col_pos = 0
+
+    @end_of_file = false
+    @end_of_line = false
     
   end
 
@@ -41,18 +44,11 @@ class Scanner
 
   # Function desc: Moves char pointer to next position
   def advance_pos
-    result_char = ''
-
-    if is_at_end
-      result_char = "\0"
-    end
-
-
 
     @next_pos += 1
     @col_pos += 1
   end
-  
+
   # Function desc: Returns current char and moves char pointer to next position
   def grab_advance
     current_char = @src[@next_pos]
