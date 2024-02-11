@@ -17,7 +17,7 @@ class Scanner
     # ============================================= #
 
     @src = src_string
-    @lox_out = lox
+    @lox = lox
     
     @token_list = []
     
@@ -44,7 +44,6 @@ class Scanner
 
   # Function desc: Moves char pointer to next position
   def advance_pos
-
     @next_pos += 1
     @col_pos += 1
   end
@@ -58,6 +57,7 @@ class Scanner
     return current_char
   end
 
+  # Function desc: Acts as a conditional advance function
   def match(expected)
     if (is_at_end)
       return false
@@ -79,12 +79,120 @@ class Scanner
     return @src[@next_pos]
   end
 
+  # Function desc: Returns the character after the next character without consuming it
+  def peek_next
+    if (@next_pos + 1 >= @src.length)
+      return "\0"
+    end
+    return @src[@next_pos + 1]
+  end
+
+  # Function Desc: Maps string keywords to their respective token types
+  def string_to_type(string)
+    keyword_map =
+      {
+        "and" => TOKEN_TYPE::AND,
+        "class" => TOKEN_TYPE::CLASS,
+        "else" => TOKEN_TYPE::ELSE,
+        "false" => TOKEN_TYPE::FALSE,
+        "for" => TOKEN_TYPE::FOR,
+        "fun" => TOKEN_TYPE::FUN,
+        "if" => TOKEN_TYPE::IF,
+        "nil" => TOKEN_TYPE::NIL,
+        "or" => TOKEN_TYPE::OR,
+        "print" => TOKEN_TYPE::PRINT,
+        "return" => TOKEN_TYPE::RETURN,
+        "super" => TOKEN_TYPE::SUPER,
+        "this" => TOKEN_TYPE::THIS,
+        "true" => TOKEN_TYPE::TRUE,
+        "var" => TOKEN_TYPE::VAR,
+        "while" => TOKEN_TYPE::WHILE
+      }
+    keyword_map.default = TOKEN_TYPE::IDENTIFIER
+
+    return keyword_map[string]
+  end
+
+
+  # Function desc: Returns a portion of the source code string
+  def src_substring(start, finish)
+    text = ""
+    for c in start..(finish - 1) do
+      text += @src[c].to_s
+    end
+    return text
+  end
+
+
   # ============================================= #
   # Literal Handling
   # ============================================= #
 
+  # Function desc: Checks if current character is a numeric value
+  def is_digit(c)
+    return c >= '0' && c <= '9'
+  end
+
+  # Function desc: Checks if current character is a alphabetical value or '_'
+  def is_alpha(c)
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
+  end
+
+  # Function desc: Checks if current character is a alphabetical or numeric value
+  def is_alpha_numeric(c)
+    return is_alpha(c) || is_digit(c)
+  end
+
+  # Function desc: Creates a string literal token
   def make_string_literal
-    
+    while (peek != '"' && !is_at_end)
+      if (peek == '\n')
+        @line_pos += 1
+        @col_pos = 0
+      end
+      advance_pos
+    end
+
+    if is_at_end
+      @lox.error(@line_pos, @col_pos, "Undetermined string.")
+    end
+
+    advance_pos
+
+    value = @src[@start_pos + 1, @col_pos - 2]
+
+    add_token(TOKEN_TYPE::STRING, value)
+  end
+
+  # Function desc: Creates a number literal token
+  def make_number_literal
+    while(is_digit(peek))
+      advance_pos
+    end
+
+    if (peek == '.' && is_digit(peek_next))
+      advance_pos
+
+      while (is_digit(peek))
+        advance_pos
+      end
+    end
+
+    add_token(TOKEN_TYPE::NUMBER, @src[@start_pos, @next_pos -1].to_f)
+  end
+
+  # Function desc: Creates either an identifier or keyword token
+  def make_identifier
+    while(is_alpha_numeric(peek))
+      advance_pos
+    end
+
+    text = src_substring(@start_pos, @next_pos)
+
+    type = string_to_type(text)
+
+
+    add_token(type)
   end
 
 
@@ -96,10 +204,7 @@ class Scanner
   # Function desc: Adds given token type to token_list
   # Note: Has two versions based on amount of arguments given
   def add_token(* args)
-    text = ""
-    for c in @start_pos..(@next_pos - 1) do
-      text += @src[c].to_s
-    end
+    text = src_substring(@start_pos, @next_pos)
 
     # Replaces literal '\n' with a text version
     if text == "\n"
@@ -157,13 +262,19 @@ class Scanner
       end
     when ' ',"\r","\t"
     when "\n"
-      # add_token(TOKEN_TYPE::NEW_LINE)
       @line_pos += 1
       @col_pos = 0
     when '"'
-
+      make_string_literal
     else
-      @lox_out.error(@line_pos, @col_pos, "Unexpected character")
+      if is_digit(c)
+        make_number_literal
+      elsif is_alpha(c)
+        make_identifier
+      else
+        @lox.error(@line_pos, @col_pos, "Unexpected character")
+      end
+
     end
 
 

@@ -42,13 +42,18 @@ module TOKEN_TYPE
   PRINT = 29
   RETURN = 30
   SUPER = 31
-  TRUE = 32
-  VAR = 33
-  WHILE = 34
+  THIS = 32
+  TRUE = 33
+  VAR = 34
+  WHILE = 35
+
+  #Literals
+  STRING = 36
+  NUMBER = 37
+  IDENTIFIER = 38
 
   # Special
-  NEW_LINE = 35
-  EOF = 36
+  EOF = 39
 
 
 end
@@ -108,10 +113,12 @@ class Token
           TOKEN_TYPE::TRUE => "TRUE",
           TOKEN_TYPE::VAR => "VAR",
           TOKEN_TYPE::WHILE => "WHILE",
-          TOKEN_TYPE::NEW_LINE => "NEW_LINE",
+          TOKEN_TYPE::STRING => "STRING",
+          TOKEN_TYPE::NUMBER => "NUMBER",
+          TOKEN_TYPE::IDENTIFIER => "IDENTIFIER",
           TOKEN_TYPE::EOF => "EOF"
         }
-      type_map.default = "UNRECOGNIZED TOKEN"
+      type_map.default = "NULL TOKEN"
 
       return type_map[type].to_s
     end
@@ -119,7 +126,7 @@ class Token
 
     def to_s
       # Format: [line #] [column #] [TOKEN_TYPE] (char representation) (literal)
-      return "[line #{@tkn_line}] [column #{@tkn_column}] ".ljust(6) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s + " " + @tkn_literal.to_s
+      return "[line #{@tkn_line}]".ljust(10) + " [column #{@tkn_column}] ".ljust(6) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s.ljust(6) + " " + @tkn_literal.to_s.rjust(10)
     end
 
   end
