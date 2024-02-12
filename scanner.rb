@@ -18,19 +18,19 @@ class Scanner
 
     @src = src_string
     @lox = lox
-    
+
     @token_list = []
-    
+
     @start_pos = 0
     @next_pos = 0
-    
-    
+
+
     @line_pos = 1
     @col_pos = 0
 
     @end_of_file = false
     @end_of_line = false
-    
+
   end
 
   # ============================================= #
@@ -67,7 +67,7 @@ class Scanner
       return false
     end
     advance_pos
-    
+
     return true
   end
 
