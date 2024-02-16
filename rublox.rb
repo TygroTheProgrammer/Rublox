@@ -18,6 +18,7 @@ class Lox
   # Class Variables
   # ============================================= #
 
+  # Error flag
   @@had_error = false
 
   # ============================================= #
@@ -47,6 +48,7 @@ class Lox
     scanner = Scanner.new(src, self)
     tokens = scanner.scan_all_tokens
 
+    # Prints each token
     tokens.each { |tkn|
       puts tkn
     }
@@ -62,11 +64,14 @@ class Lox
   def run_prompt
     while 1 == 1
       print("> ")
+      # Gets user input
       line = gets.chomp
 
       if line == ""
+        # Stops REPEL environment
         break
       end
+
       run(line)
       @@had_error = false
     end

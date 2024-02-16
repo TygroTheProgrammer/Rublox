@@ -15,19 +15,24 @@ class Scanner
     # ============================================= #
     # Class Variables
     # ============================================= #
-
+    # String representation of program
     @src = src_string
+
+    # The Interpreter Object
     @lox = lox
 
     @token_list = []
 
+    # Index Pointers
     @start_pos = 0
     @next_pos = 0
 
 
+    # Trackers
     @line_pos = 1
     @col_pos = 0
 
+    # Flags
     @end_of_file = false
     @end_of_line = false
 
@@ -51,7 +56,6 @@ class Scanner
   # Function desc: Returns current char and moves char pointer to next position
   def grab_advance
     current_char = @src[@next_pos]
-
     advance_pos
 
     return current_char
@@ -74,6 +78,7 @@ class Scanner
   # Function desc: Returns the next character without consuming it
   def peek
     if is_at_end
+      # Return null
       return "\0"
     end
     return @src[@next_pos]
@@ -82,6 +87,7 @@ class Scanner
   # Function desc: Returns the character after the next character without consuming it
   def peek_next
     if (@next_pos + 1 >= @src.length)
+      # Return null
       return "\0"
     end
     return @src[@next_pos + 1]
@@ -170,6 +176,7 @@ class Scanner
       advance_pos
     end
 
+    # Handles decimal numbers
     if (peek == '.' && is_digit(peek_next))
       advance_pos
 
@@ -196,7 +203,6 @@ class Scanner
     text = src_substring(@start_pos, @next_pos)
 
     type = string_to_type(text)
-
 
     add_token(type)
   end
@@ -267,6 +273,7 @@ class Scanner
         add_token(TOKEN_TYPE::SLASH)
       end
     when ' ',"\r","\t"
+      # Consumes these chars
     when "\n"
       @line_pos += 1
       @col_pos = 0
