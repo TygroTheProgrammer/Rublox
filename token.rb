@@ -126,7 +126,7 @@ class Token
 
     def to_s
       # Format: [line #] [column #] [TOKEN_TYPE] (char representation) (literal)
-      return "[line #{@tkn_line}]".ljust(9) + " [column #{@tkn_column}] ".ljust(16) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s.ljust(16) + " " + @tkn_literal.to_s.rjust(16)
+      return "[line #{@tkn_line}]".ljust(9) + " [column #{@tkn_column}] ".ljust(16) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s.ljust(16) + " " + @tkn_literal.to_s.rjust(1)
     end
 
   end

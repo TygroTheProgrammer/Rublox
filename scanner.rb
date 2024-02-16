@@ -178,7 +178,13 @@ class Scanner
       end
     end
 
-    add_token(TOKEN_TYPE::NUMBER, @src[@start_pos, @next_pos -1].to_f)
+    if (@start_pos != 0)
+      add_token(TOKEN_TYPE::NUMBER, @src[@start_pos, @next_pos -1].to_f)
+    else
+      # Handles if the number is at the start of the src
+      add_token(TOKEN_TYPE::NUMBER, @src[0, @next_pos].to_f)
+    end
+
   end
 
   # Function desc: Creates either an identifier or keyword token

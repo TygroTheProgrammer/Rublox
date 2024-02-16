@@ -1,15 +1,15 @@
-a = 1
-b = 1
+a = 1;
+b = 1;
 if (a == b)
 {
-    a = a + 1
+    a = a + 1;
 }
 
 
 fun swap(x, y)
 {
-    temp = x
-    x = y
-    y = temp
+    temp = x;
+    x = y;
+    y = temp;
 }
 
