@@ -42,10 +42,15 @@ class Lox
   # Function desc: Runs a given Lox program
   def run(src)
 
+    # Closes REPEL/script if error is found
     if (@@had_error == true)
       exit()
     end
+
+    # Set up scanner
     scanner = Scanner.new(src, self)
+
+    # Get all tokens
     tokens = scanner.scan_all_tokens
 
     # Prints each token

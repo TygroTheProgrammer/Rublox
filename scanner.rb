@@ -21,6 +21,7 @@ class Scanner
     # The Interpreter Object
     @lox = lox
 
+    # Contains all scanned tokens
     @token_list = []
 
     # Index Pointers
@@ -49,13 +50,18 @@ class Scanner
 
   # Function desc: Moves char pointer to next position
   def advance_pos
+    # Update index pointers
     @next_pos += 1
     @col_pos += 1
   end
 
   # Function desc: Returns current char and moves char pointer to next position
   def grab_advance
+
+    # Stores the character at current position
     current_char = @src[@next_pos]
+
+    # Advance forward
     advance_pos
 
     return current_char
@@ -63,15 +69,18 @@ class Scanner
 
   # Function desc: Acts as a conditional advance function
   def match(expected)
+    # Handles EOF edge case
     if (is_at_end)
       return false
     end
 
+    # If it is not the expected return false and exit out
     if (@src[@next_pos] != expected)
       return false
     end
-    advance_pos
 
+    # If true advance
+    advance_pos
     return true
   end
 
@@ -151,6 +160,8 @@ class Scanner
 
   # Function desc: Creates a string literal token
   def make_string_literal
+
+    # Advances until hitting a '"'
     while (peek != '"' && !is_at_end)
       if (peek == '\n')
         @line_pos += 1
@@ -159,19 +170,24 @@ class Scanner
       advance_pos
     end
 
+    # Handles string without an ending '"'
     if is_at_end
       @lox.error(@line_pos, @col_pos, "Undetermined string.")
     end
 
+    # Consumes the ending '"'
     advance_pos
 
-    value = @src[@start_pos + 1, @col_pos - 2]
+    # Returns the strings value insides of the '"'s
+    value = src_substring(@start_pos + 1, @next_pos -1)
 
     add_token(TOKEN_TYPE::STRING, value)
   end
 
   # Function desc: Creates a number literal token
   def make_number_literal
+
+
     while(is_digit(peek))
       advance_pos
     end
@@ -185,6 +201,7 @@ class Scanner
       end
     end
 
+    # Handles numbers not at the start of the src
     if (@start_pos != 0)
       add_token(TOKEN_TYPE::NUMBER, @src[@start_pos, @next_pos -1].to_f)
     else
@@ -202,6 +219,7 @@ class Scanner
 
     text = src_substring(@start_pos, @next_pos)
 
+    # Determines what type of token was found
     type = string_to_type(text)
 
     add_token(type)
