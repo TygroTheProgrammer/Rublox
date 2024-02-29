@@ -57,29 +57,35 @@ module TOKEN_TYPE
 
 
 end
+:left_paren
 
 
 # Class desc: Represents the smallest lexical unit in the Lox language
 class Token
+  attr_reader :type, :lexeme, :literal
+
   def initialize(type, lexeme, literal, line, column)
 
     # ============================================= #
     # Class Variables
     # ============================================= #
 
+    # Accessor get method for each token variable
+
+
 
     # The token's 'id'
-    @tkn_type = type
+    @type = type
 
     # The character representation of a token
-    @tkn_lexeme = lexeme
+    @lexeme = lexeme
 
     # The literal value of a token
-    @tkn_literal = literal
+    @literal = literal
 
     # Location trackers
-    @tkn_line = line
-    @tkn_column = column
+    @line = line
+    @column = column
 
 
 
@@ -134,7 +140,7 @@ class Token
     # Function desc: Override to_s for token types
     def to_s
       # Format: [line #] [column #] [TOKEN_TYPE] (char representation) (literal)
-      return "[line #{@tkn_line}]".ljust(9) + " [column #{@tkn_column}] ".ljust(16) +  ("[" + type_to_str(@tkn_type) + "]").ljust(16) +  " " + @tkn_lexeme.to_s.ljust(16) + " " + @tkn_literal.to_s.rjust(1)
+      return "[line #{@line}]".ljust(9) + " [column #{@column}] ".ljust(16) +  ("[" + type_to_str(@type) + "]").ljust(16) +  " " + @lexeme.to_s.ljust(16) + " " + @literal.to_s.rjust(1)
     end
 
   end
