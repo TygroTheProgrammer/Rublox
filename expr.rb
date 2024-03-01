@@ -53,7 +53,7 @@ end
 # Class desc: Grouping expression ([expression])
 class GroupingExpr < Expr
 
-
+  # Simple Accessor Methods
   attr_reader :expression
 
   def initialize(expression)
@@ -76,6 +76,8 @@ end
 
 # Class desc: Unary expression [operator] [expression]
 class UnaryExpr < Expr
+
+  # Simple Accessor Methods
   attr_accessor :operator, :right
 
   def initialize(operator, right)
@@ -100,6 +102,8 @@ end
 
 # Class desc: Literal expression [value]
 class LiteralExpr < Expr
+
+  # Simple Accessor Method
   attr_accessor :value
 
   def initialize(value)

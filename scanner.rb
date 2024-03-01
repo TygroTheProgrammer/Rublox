@@ -25,13 +25,13 @@ class Scanner
     @token_list = []
 
     # Index Pointers
-    @start_pos = 0
-    @next_pos = 0
+    @start_pos = 0 # Tracks the index of the first character in the token
+    @next_pos = 0 # Tracks the position of subsequent characters after the start
 
 
     # Trackers
-    @line_pos = 1
-    @col_pos = 0
+    @line_pos = 1 # Tracks which line the scanners "eye" is
+    @col_pos = 0 # Tracks which column the scanners "eye" is
 
     # Flags
     @end_of_file = false
