@@ -106,24 +106,24 @@ class Scanner
   def string_to_type(string)
     keyword_map =
       {
-        "and" => TOKEN_TYPE::AND,
-        "class" => TOKEN_TYPE::CLASS,
-        "else" => TOKEN_TYPE::ELSE,
-        "false" => TOKEN_TYPE::FALSE,
-        "for" => TOKEN_TYPE::FOR,
-        "fun" => TOKEN_TYPE::FUN,
-        "if" => TOKEN_TYPE::IF,
-        "nil" => TOKEN_TYPE::NIL,
-        "or" => TOKEN_TYPE::OR,
-        "print" => TOKEN_TYPE::PRINT,
-        "return" => TOKEN_TYPE::RETURN,
-        "super" => TOKEN_TYPE::SUPER,
-        "this" => TOKEN_TYPE::THIS,
-        "true" => TOKEN_TYPE::TRUE,
-        "var" => TOKEN_TYPE::VAR,
-        "while" => TOKEN_TYPE::WHILE
+        "and" => :and,
+        "class" => :class,
+        "else" => :else,
+        "false" => :false,
+        "for" => :for,
+        "fun" => :fun,
+        "if" => :if,
+        "nil" => :nil,
+        "or" => :or,
+        "print" => :print,
+        "return" => :return,
+        "super" => :super,
+        "this" => :this,
+        "true" => :true,
+        "var" => :var,
+        "while" => :while
       }
-    keyword_map.default = TOKEN_TYPE::IDENTIFIER
+    keyword_map.default = :identifier
 
     return keyword_map[string]
   end
@@ -181,7 +181,7 @@ class Scanner
     # Returns the strings value insides of the '"'s
     value = src_substring(@start_pos + 1, @next_pos -1)
 
-    add_token(TOKEN_TYPE::STRING, value)
+    add_token(:string, value)
   end
 
   # Function desc: Creates a number literal token
@@ -203,10 +203,10 @@ class Scanner
 
     # Handles numbers not at the start of the src
     if (@start_pos != 0)
-      add_token(TOKEN_TYPE::NUMBER, @src[@start_pos, @next_pos -1].to_f)
+      add_token(:number, @src[@start_pos, @next_pos -1].to_f)
     else
       # Handles if the number is at the start of the src
-      add_token(TOKEN_TYPE::NUMBER, @src[0, @next_pos].to_f)
+      add_token(:number::NUMBER, @src[0, @next_pos].to_f)
     end
 
   end
@@ -254,33 +254,33 @@ class Scanner
     c = grab_advance
     case c
     when '('
-      add_token(TOKEN_TYPE::LEFT_PAREN)
+      add_token(:left_paren)
     when ')'
-      add_token(TOKEN_TYPE::RIGHT_PAREN)
+      add_token(:right_paren)
     when '{'
-      add_token(TOKEN_TYPE::LEFT_BRACE)
+      add_token(:left_brace)
     when '}'
-      add_token(TOKEN_TYPE::RIGHT_BRACE)
+      add_token(:right_brace)
     when ','
-      add_token(TOKEN_TYPE::COMMA)
+      add_token(:comma)
     when '.'
-      add_token(TOKEN_TYPE::DOT)
+      add_token(:dot)
     when '-'
-      add_token(TOKEN_TYPE::MINUS)
+      add_token(:minus)
     when '+'
-      add_token(TOKEN_TYPE::PLUS)
+      add_token(:plus)
     when ';'
-      add_token(TOKEN_TYPE::SEMICOLON)
+      add_token(:semicolon)
     when '*'
-      add_token(TOKEN_TYPE::STAR)
+      add_token(:star)
     when '!'
-      add_token(match('=') ? TOKEN_TYPE::BANG_EQUAL : TOKEN_TYPE::BANG)
+      add_token(match('=') ? :bang_equal : :bang)
     when '='
-      add_token(match('=') ? TOKEN_TYPE::EQUAL_EQUAL : TOKEN_TYPE::EQUAL)
+      add_token(match('=') ? :equal_equal : :equal)
     when '<'
-      add_token(match('=') ? TOKEN_TYPE::LESS_EQUAL : TOKEN_TYPE::LESS)
+      add_token(match('=') ? :less_equal : :less)
     when '>'
-      add_token(match('=') ? TOKEN_TYPE::GREATER_EQUAL : TOKEN_TYPE::GREATER)
+      add_token(match('=') ? :greater_equal : :greater)
     when '/'
       if match('/')
         # Consumes every character on line with comment
@@ -288,7 +288,7 @@ class Scanner
           advance_pos
         end
       else
-        add_token(TOKEN_TYPE::SLASH)
+        add_token(:slash)
       end
     when ' ',"\r","\t"
       # Consumes these chars
@@ -317,7 +317,7 @@ class Scanner
       @start_pos = @next_pos
       scan_token
     end
-    @token_list.append(Token.new(TOKEN_TYPE::EOF, "", nil, @line_pos, @col_pos))
+    @token_list.append(Token.new(:eof, "", nil, @line_pos, @col_pos))
 
     return @token_list
 
