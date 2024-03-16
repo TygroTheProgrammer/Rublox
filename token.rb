@@ -63,7 +63,7 @@
 
 # Class desc: Represents the smallest lexical unit in the Lox language
 class Token
-  attr_reader :type, :lexeme, :literal
+  attr_accessor :type, :lexeme, :literal, :line, :column
 
   def initialize(type, lexeme, literal, line, column)
 

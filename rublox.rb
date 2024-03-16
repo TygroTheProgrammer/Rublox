@@ -8,6 +8,8 @@
 # ============================================= #
 require './scanner.rb'
 require './token.rb'
+require './parser.rb'
+
 
 
 
@@ -42,21 +44,30 @@ class Lox
   # Function desc: Runs a given Lox program
   def run(src)
 
-    # Closes REPEL/script if error is found
-    if (@@had_error == true)
-      exit()
-    end
+
 
     # Set up scanner
     scanner = Scanner.new(src, self)
 
     # Get all tokens
-    tokens = scanner.scan_all_tokens
+    tokens = scanner.scan_all_tokens # the actual list of tokens
 
-    # Prints each token
-    tokens.each { |tkn|
-      puts tkn
-    }
+    # Gets all expressions
+    parser = Parser.new(tokens, self)
+
+    expression = parser.parse # the actual list of expressions
+
+    # Closes REPEL/script if error is found
+    if (@@had_error == true)
+      exit()
+    end
+
+    # Creates visitor/AST printer
+    ast_printer = Visitor.new()
+
+
+    puts(ast_printer.print_expression(expression))
+
   end
 
   # Function desc: Runs a given Lox path
@@ -89,8 +100,15 @@ class Lox
   # ============================================= #
 
   # Function desc: Handles errors
-  def error(line, column, message)
-    report(line, column,"", message)
+  def error(token, message)
+    if token == :eof
+      report(line, column," at end", message)
+    else
+      report(token.line, token.column,"at '" + token.lexeme.to_s + "'", message)
+    end
+
+
+
   end
 
   # Function desc: Displays errors
@@ -98,6 +116,7 @@ class Lox
     puts("[line #{line}] [column #{column}] Error #{where}  : #{message}")
     @@had_error = true
   end
+   
 
 end
 

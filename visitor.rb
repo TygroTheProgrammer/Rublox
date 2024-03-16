@@ -35,7 +35,7 @@ class Visitor
 
   # Function desc: Returns given expression in a printable format
   def print_expression(expr)
-    return expr.accept(self)
+    expr.accept(self)
   end
 
   # ============================================= #

@@ -10,6 +10,8 @@ require './token.rb'
 
 # Class desc: Finds and parses tokens
 class Scanner
+
+
   def initialize(src_string, lox)
 
     # ============================================= #
@@ -172,7 +174,7 @@ class Scanner
 
     # Handles string without an ending '"'
     if is_at_end
-      @lox.error(@line_pos, @col_pos, "Undetermined string.")
+      @lox.error(@token_list[@next_pos], "Undetermined string.")
     end
 
     # Consumes the ending '"'
@@ -206,7 +208,7 @@ class Scanner
       add_token(:number, @src[@start_pos, @next_pos -1].to_f)
     else
       # Handles if the number is at the start of the src
-      add_token(:number::NUMBER, @src[0, @next_pos].to_f)
+      add_token(:number, @src[0, @next_pos].to_f)
     end
 
   end
@@ -303,7 +305,7 @@ class Scanner
       elsif is_alpha(c)
         make_identifier
       else
-        @lox.error(@line_pos, @col_pos, "Unexpected character")
+        @lox.error(@token_list[@next_pos -1], "Unexpected character")
       end
 
     end
