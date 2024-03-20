@@ -9,9 +9,7 @@
 require './scanner.rb'
 require './token.rb'
 require './parser.rb'
-
-
-
+require './interpreter.rb'
 
 # Class desc: Handles the processing of the Lox language
 class Lox
@@ -21,7 +19,7 @@ class Lox
   # ============================================= #
 
   # Error flag
-  @@had_error = false
+  @had_error = false
 
   # ============================================= #
   # Primary Lox Functions
@@ -43,9 +41,6 @@ class Lox
 
   # Function desc: Runs a given Lox program
   def run(src)
-
-
-
     # Set up scanner
     scanner = Scanner.new(src, self)
 
@@ -58,15 +53,19 @@ class Lox
     expression = parser.parse # the actual list of expressions
 
     # Closes REPEL/script if error is found
-    if (@@had_error == true)
-      exit()
+    if @had_error
+      exit
     end
 
     # Creates visitor/AST printer
-    ast_printer = Visitor.new()
+    ast_printer = Visitor.new
 
 
     puts(ast_printer.print_expression(expression))
+
+    interpreter = Interpreter.new(self)
+
+    interpreter.interpret(expression)
 
   end
 
@@ -89,7 +88,7 @@ class Lox
       end
 
       run(line)
-      @@had_error = false
+      @had_error = false
     end
 
   end
@@ -100,24 +99,19 @@ class Lox
   # ============================================= #
 
   # Function desc: Handles errors
-  def error(token, message)
+  def error(token, * message)
     if token == :eof
       report(line, column," at end", message)
     else
       report(token.line, token.column,"at '" + token.lexeme.to_s + "'", message)
     end
-
-
-
   end
 
   # Function desc: Displays errors
   def report(line, column, where, message)
     puts("[line #{line}] [column #{column}] Error #{where}  : #{message}")
-    @@had_error = true
+    @had_error = true
   end
-   
-
 end
 
 

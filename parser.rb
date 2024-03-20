@@ -1,6 +1,6 @@
 # FILE: parser.rb
 # CLASS: Parser
-# PURPOSE: Parses things
+# PURPOSE: Converts a list of tokens to an AST
 # AUTHOR(S): Isaiah Parker
 
 # ============================================= #
@@ -30,8 +30,7 @@ class Parser
   # Function desc: Primary function of the parser; generates an expression
   def parse
     begin # Try
-      expr = expression
-      expr # return
+      expression # return
 
     rescue ParsingError # Catches errors
       error(@token_list[@next_pos], "Parsing Error")
@@ -46,26 +45,26 @@ class Parser
 
   # Function desc: Simple boolean method that checks if token pointer is at the end of the program
   def is_at_end
-    return peek_next.type == :eof
+    peek_next.type == :eof # return
   end
 
   # Function desc: Returns the next token in the list without consuming it
   def peek_next
-    return @token_list[@next_pos]
+    @token_list[@next_pos] # return
   end
 
   # Function desc: Returns the previous token in the list without consuming it
   def peek_prev
-    return @token_list[@next_pos - 1]
+    @token_list[@next_pos - 1] # return
   end
 
   # Function desc: Moves the pointer forward and returns the previous token
   def advance
-    if !is_at_end
+    unless is_at_end
 
       @next_pos += 1
     end
-    return peek_prev
+    peek_prev # return
   end
 
   # Function desc: Compares given token type to next token in list and returns boolean as the result
@@ -73,7 +72,7 @@ class Parser
     if is_at_end
       return false
     end
-    return peek_next.type == t
+    peek_next.type == t # return
   end
 
   # Function desc: For each type given they are check()ed against the next token in the list, returning true if there's
@@ -86,7 +85,7 @@ class Parser
       end
     end
 
-    return false
+    false # return
 
   end
   # ============================================= #
@@ -100,18 +99,17 @@ class Parser
 
   # Function desc: Discards tokens until the Parser is back in synch
   def synchronize
-    while (!is_at_end)
+    until is_at_end
       if peek_prev.type == :semicolon
         break
       end
-
       case peek_next.type
 
       when :class
 
-      when :fun
+        when :fun
 
-      when :var
+        when :var
 
       when :for
 
@@ -123,6 +121,8 @@ class Parser
 
       when :return
         break
+      else
+        # Do nothing
       end
 
       advance
@@ -147,7 +147,7 @@ class Parser
 
   def expression
     puts("expression()...")
-    return equality
+    equality # return
   end
 
   def primary
@@ -203,7 +203,7 @@ class Parser
     puts("term()...")
     expr = factor
 
-    while (match(:minus, :plus))
+    while match(:minus, :plus)
       operator = peek_prev
       right = factor
       expr = BinaryExpr.new(expr, operator, right)

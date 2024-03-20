@@ -30,7 +30,7 @@ class Visitor
 
     ss.concat(")")
 
-    return ss.to_s
+    ss.to_s # return
   end
 
   # Function desc: Returns given expression in a printable format
@@ -44,20 +44,20 @@ class Visitor
 
 
   def visit_binary_expr(expr)
-    return parenthesize(expr.operator.lexeme, expr.left, expr.right)
+    parenthesize(expr.operator.lexeme, expr.left, expr.right) # return
   end
 
   def visit_unary_expr(expr)
-    return parenthesize(expr.operator.lexeme, expr.right)
+    parenthesize(expr.operator.lexeme, expr.right) # return
   end
 
   def visit_literal_expr(expr)
-    if (expr.value == nil) then return "nil" end
-    return expr.value.to_s
+    if expr.value == nil then return "nil" end
+    expr.value.to_s # return
   end
 
   def visit_grouping_expr(expr)
-    return parenthesize("group", expr.expression)
+    parenthesize("group", expr.expression) # return
   end
 end
 

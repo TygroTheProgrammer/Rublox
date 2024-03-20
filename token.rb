@@ -63,6 +63,7 @@
 
 # Class desc: Represents the smallest lexical unit in the Lox language
 class Token
+  # Accessor get method for each token variable
   attr_accessor :type, :lexeme, :literal, :line, :column
 
   def initialize(type, lexeme, literal, line, column)
@@ -70,10 +71,6 @@ class Token
     # ============================================= #
     # Class Variables
     # ============================================= #
-
-    # Accessor get method for each token variable
-
-
 
     # The token's 'id'
     @type = type
@@ -94,54 +91,55 @@ class Token
     def type_to_str(type)
       type_map =
         {
-          :left_paren => "LEFT_PAREN",
-          :right_paren => "RIGHT_PAREN",
-          :left_brace => "LEFT_BRACE",
-          :right_brace => "RIGHT_BRACE",
-          :comma => "COMMA",
-          :dot => "DOT",
-          :minus => "MINUS",
-          :plus => "PLUS",
-          :semicolon => "SEMICOLON",
-          :slash => "SLASH",
-          :star => "STAR",
-          :bang => "BANG",
-          :bang_equal => "BANG_EQUAL",
-          :equal => "EQUAL",
-          :equal_equal => "EQUAL_EQUAL",
-          :greater => "GREATER",
-          :greater_equal => "GREATER_EQUAL",
-          :less => "LESS",
-          :less_equal => "LESS_EQUAL",
-          :and => "AND",
-          :class => "CLASS",
-          :else => "ELSE",
-          :false => "FALSE",
-          :fun => "FUN",
-          :for => "FOR",
-          :if => "IF",
-          :nil => "NIL",
-          :or => "OR",
-          :print => "PRINT",
-          :return => "RETURN",
-          :super => "SUPER",
-          :true => "TRUE",
-          :var => "VAR",
-          :while => "WHILE",
-          :string => "STRING",
-          :number => "NUMBER",
-          :identifier => "IDENTIFIER",
-          :eof => "EOF"
+          left_paren: "LEFT_PAREN",
+          right_paren: "RIGHT_PAREN",
+          left_brace: "LEFT_BRACE",
+          right_brace: "RIGHT_BRACE",
+          comma: "COMMA",
+          dot: "DOT",
+          minus: "MINUS",
+          plus: "PLUS",
+          semicolon: "SEMICOLON",
+          slash: "SLASH",
+          star: "STAR",
+          bang: "BANG",
+          bang_equal: "BANG_EQUAL",
+          equal: "EQUAL",
+          equal_equal: "EQUAL_EQUAL",
+          greater: "GREATER",
+          greater_equal: "GREATER_EQUAL",
+          less: "LESS",
+          less_equal: "LESS_EQUAL",
+          and: "AND",
+          class: "CLASS",
+          else: "ELSE",
+          false: "FALSE",
+          fun: "FUN",
+          for: "FOR",
+          if: "IF",
+          nil: "NIL",
+          or: "OR",
+          print: "PRINT",
+          return: "RETURN",
+          super: "SUPER",
+          true: "TRUE",
+          var: "VAR",
+          while: "WHILE",
+          string: "STRING",
+          number: "NUMBER",
+          identifier: "IDENTIFIER",
+          eof: "EOF"
         }
       type_map.default = "NULL TOKEN"
 
-      return type_map[type].to_s
+      type_map[type].to_s # return
     end
 
     # Function desc: Override to_s for token types
     def to_s
       # Format: [line #] [column #] [TOKEN_TYPE] (char representation) (literal)
-      return "[line #{@line}]".ljust(9) + " [column #{@column}] ".ljust(16) +  ("[" + type_to_str(@type) + "]").ljust(16) +  " " + @lexeme.to_s.ljust(16) + " " + @literal.to_s.rjust(1)
+      "[line #{@line}]".ljust(9) + " [column #{@column}] ".ljust(16) +  ("[" + type_to_str(@type)
+      + "]").ljust(16) +  " " + @lexeme.to_s.ljust(16) + " " + @literal.to_s.rjust(1) # return
     end
 
   end

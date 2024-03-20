@@ -47,7 +47,7 @@ class Scanner
 
   # Function desc: Simple boolean method that checks if the char pointer is at the end of the program
   def is_at_end
-    return (@next_pos >= @src.length)
+    (@next_pos >= @src.length) # return
   end
 
   # Function desc: Moves char pointer to next position
@@ -66,24 +66,24 @@ class Scanner
     # Advance forward
     advance_pos
 
-    return current_char
+    current_char # return
   end
 
   # Function desc: Acts as a conditional advance function
   def match(expected)
     # Handles EOF edge case
-    if (is_at_end)
+    if is_at_end
       return false
     end
 
     # If it is not the expected return false and exit out
-    if (@src[@next_pos] != expected)
+    if @src[@next_pos] != expected
       return false
     end
 
     # If true advance
     advance_pos
-    return true
+    true # return
   end
 
   # Function desc: Returns the next character without consuming it
@@ -92,16 +92,16 @@ class Scanner
       # Return null
       return "\0"
     end
-    return @src[@next_pos]
+    @src[@next_pos] # return
   end
 
   # Function desc: Returns the character after the next character without consuming it
   def peek_next
-    if (@next_pos + 1 >= @src.length)
+    if @next_pos + 1 >= @src.length
       # Return null
       return "\0"
     end
-    return @src[@next_pos + 1]
+    @src[@next_pos + 1] # return
   end
 
   # Function Desc: Maps string keywords to their respective token types
@@ -127,17 +127,17 @@ class Scanner
       }
     keyword_map.default = :identifier
 
-    return keyword_map[string]
+    keyword_map[string] # return
   end
 
 
   # Function desc: Returns a portion of the source code string
   def src_substring(start, finish)
     text = ""
-    for c in start..(finish - 1) do
+    (start..(finish - 1)).each { |c|
       text += @src[c].to_s
-    end
-    return text
+    }
+    text # return
   end
 
 
@@ -147,25 +147,25 @@ class Scanner
 
   # Function desc: Checks if current character is a numeric value
   def is_digit(c)
-    return c >= '0' && c <= '9'
+    c >= '0' && c <= '9' # return
   end
 
   # Function desc: Checks if current character is a alphabetical value or '_'
   def is_alpha(c)
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
+    (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_') # return
   end
 
   # Function desc: Checks if current character is a alphabetical or numeric value
   def is_alpha_numeric(c)
-    return is_alpha(c) || is_digit(c)
+    is_alpha(c) || is_digit(c) # return
   end
 
   # Function desc: Creates a string literal token
   def make_string_literal
 
     # Advances until hitting a '"'
-    while (peek != '"' && !is_at_end)
-      if (peek == '\n')
+    while peek != '"' && !is_at_end
+      if peek == '\n'
         @line_pos += 1
         @col_pos = 0
       end
@@ -190,21 +190,21 @@ class Scanner
   def make_number_literal
 
 
-    while(is_digit(peek))
+    while is_digit(peek)
       advance_pos
     end
 
     # Handles decimal numbers
-    if (peek == '.' && is_digit(peek_next))
+    if peek == '.' && is_digit(peek_next)
       advance_pos
 
-      while (is_digit(peek))
+      while is_digit(peek)
         advance_pos
       end
     end
 
     # Handles numbers not at the start of the src
-    if (@start_pos != 0)
+    if @start_pos != 0
       add_token(:number, @src[@start_pos, @next_pos -1].to_f)
     else
       # Handles if the number is at the start of the src
@@ -215,7 +215,7 @@ class Scanner
 
   # Function desc: Creates either an identifier or keyword token
   def make_identifier
-    while(is_alpha_numeric(peek))
+    while is_alpha_numeric(peek)
       advance_pos
     end
 
@@ -247,6 +247,8 @@ class Scanner
       @token_list.append(Token.new(args[0], text, nil, @line_pos, @col_pos))
     when 2 # add_token(TOKEN_TYPE, literal_value)
       @token_list.append(Token.new(args[0], text, args[1], @line_pos, @col_pos))
+    else
+      # Do nothing
     end
   end
 
@@ -286,7 +288,7 @@ class Scanner
     when '/'
       if match('/')
         # Consumes every character on line with comment
-        while (peek != "\n" && !is_at_end)
+        while peek != "\n" && !is_at_end
           advance_pos
         end
       else
@@ -315,13 +317,13 @@ class Scanner
 
   # Function desc: Scans all tokens in given program
   def scan_all_tokens
-    while (!is_at_end)
+    until is_at_end
       @start_pos = @next_pos
       scan_token
     end
     @token_list.append(Token.new(:eof, "", nil, @line_pos, @col_pos))
 
-    return @token_list
+    @token_list # return
 
   end
 
