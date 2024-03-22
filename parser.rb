@@ -230,7 +230,7 @@ class Parser
     puts("comparison()...")
     expr = term
     while match(:greater, :greater_equal, :less, :less_equal)
-      operator = previous
+      operator = peek_prev
       right = term
       expr = BinaryExpr.new(expr, operator, right)
     end

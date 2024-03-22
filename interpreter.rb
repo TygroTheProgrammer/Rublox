@@ -10,7 +10,7 @@ require './expr.rb'
 require './runtime_error.rb'
 
 
-# Class desc: Walks through AST and generates
+# Class desc: Walks through AST and generates evaluated values
 class Interpreter
   def initialize(lox)
     @lox = lox
