@@ -1,5 +1,5 @@
 
-![Logo]((https://github.com/TygroTheProgrammer/Rublox/blob/main/Rublox.png?raw=true)
+![Logo]((https://github.com/TygroTheProgrammer/Rublox/blob/main/Rublox.png)
 
 
 # Rublox v1.6
