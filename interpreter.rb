@@ -151,7 +151,7 @@ class Interpreter
 
     case expr.operator.type
     when :bang
-      return is_truthy(right)
+      return !is_truthy(right)
     when :minus
       return -right
     else
