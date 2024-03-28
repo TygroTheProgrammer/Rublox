@@ -1,6 +1,6 @@
 # FILE: scanner.rb
 # CLASS: Scanner
-# PURPOSE: Finds and parses tokens
+# PURPOSE: Transforms characters into a parsable list of tokens
 # AUTHOR(S): Isaiah Parker
 
 # ============================================= #
@@ -8,7 +8,8 @@
 # ============================================= #
 require './token.rb'
 
-# Class desc: Finds and parses tokens
+
+# Class desc: Transforms characters into a parsable list of tokens
 class Scanner
 
 

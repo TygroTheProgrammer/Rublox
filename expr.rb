@@ -100,6 +100,10 @@ class UnaryExpr < Expr
 end
 
 
+# ============================================= #
+# Expression Types
+# ============================================= #
+
 # Class desc: Literal expression [value]
 class LiteralExpr < Expr
 

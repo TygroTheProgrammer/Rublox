@@ -50,22 +50,17 @@ class Lox
     # Gets all expressions
     parser = Parser.new(tokens, self)
 
-    expression = parser.parse # the actual list of expressions
+    statements = parser.parse # the actual list of parsed statements
 
     # Closes REPEL/script if error is found
     if @had_error
       exit
     end
 
-    # Creates visitor/AST printer
-    ast_printer = Visitor.new
-
-
-    puts(ast_printer.print_expression(expression))
-
     interpreter = Interpreter.new(self)
 
-    interpreter.interpret(expression)
+    # Executes given code
+    interpreter.interpret(statements)
 
   end
 

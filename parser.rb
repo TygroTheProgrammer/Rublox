@@ -8,15 +8,21 @@
 # ============================================= #
 require './token.rb'
 require './expr.rb'
+require './stmt.rb'
 
-#
+# Class desc: Uses visitor pattern to generate an executable AST
 class Parser
 
+  # Class desc: Creates a specialized error type
   class ParsingError < RuntimeError
-
   end
 
   def initialize(tokens, lox)
+
+    # ============================================= #
+    # Class Variables
+    # ============================================= #
+
     # The list of tokens to parse, usually given by the scanner
     @token_list = tokens
 
@@ -30,12 +36,17 @@ class Parser
   # Function desc: Primary function of the parser; generates an expression
   def parse
     begin # Try
-      expression # return
+      statements = []
+
+      until is_at_end
+        statements.append(statement)
+      end
+
+      return statements
+
 
     rescue ParsingError # Catches errors
       error(@token_list[@next_pos], "Parsing Error")
-
-      nil # return
     end
 
   end
@@ -146,12 +157,32 @@ class Parser
 
 
   def expression
-    puts("expression()...")
+    # puts("expression()...")
     equality # return
   end
 
+  def statement
+    print_statement if match(:print)
+  end
+
+  # Function desc: Adds a print statement to the statement list
+  def print_statement
+    value = expression
+    # Look for a semicolon
+    consume(:semicolon, "Expect ';' after value.")
+    Stmt::Print.new(value) # return
+  end
+
+  # Function desc: Adds an expression statement to the statement list
+  def expression_statement
+    expr = expression
+    # Look for a semicolon
+    consume(:semicolon, "Expect ';' after value.")
+    Stmt::Expression.new(expr) # return
+  end
+
   def primary
-    puts("primary()...")
+    # puts("primary()...")
 
     # Handles literals with "simple" values
     return LiteralExpr.new(true) if match(:true)
@@ -177,7 +208,7 @@ class Parser
   end
 
   def unary
-    puts("unary()...")
+    # puts("unary()...")
     if match(:bang, :minus)
       operator = peek_prev
       right = unary
@@ -187,7 +218,7 @@ class Parser
   end
 
   def factor
-    puts("factor()...")
+    # puts("factor()...")
     expr = unary
 
     while match(:slash, :star)
@@ -200,7 +231,7 @@ class Parser
   end
 
   def term
-    puts("term()...")
+    # puts("term()...")
     expr = factor
 
     while match(:minus, :plus)
@@ -213,7 +244,7 @@ class Parser
 
 
   def equality
-    puts("equality()...")
+    # puts("equality()...")
     expr = comparison
 
     while match(:bang_equal, :equal_equal)
@@ -227,7 +258,7 @@ class Parser
   end
 
   def comparison
-    puts("comparison()...")
+    # puts("comparison()...")
     expr = term
     while match(:greater, :greater_equal, :less, :less_equal)
       operator = peek_prev

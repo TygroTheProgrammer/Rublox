@@ -8,11 +8,18 @@
 # ============================================= #
 require './expr.rb'
 require './runtime_error.rb'
+require './stmt.rb'
 
 
 # Class desc: Walks through AST and generates evaluated values
 class Interpreter
+
   def initialize(lox)
+
+    # ============================================= #
+    # Class Variables
+    # ============================================= #
+
     @lox = lox
   end
 
@@ -22,11 +29,17 @@ class Interpreter
     expr.accept(self) # return
   end
 
+  # Function desc: Kicks off visitor pattern
+  def execute(stmt)
+    stmt.accept(self)
+  end
+
   # Function desc: Main API function for the interpreter
-  def interpret(expr)
+  def interpret(statements)
     begin
-      value = evaluate(expr)
-      puts(stringify(value))
+      statements.each do |statement|
+        execute(statement)
+      end
     rescue error
       @lox.error(error)
     end
@@ -87,7 +100,7 @@ class Interpreter
   end
 
   # ============================================= #
-  # Visits
+  # Expression Visits
   # ============================================= #
 
   def visit_literal_expr(expr)
@@ -146,6 +159,20 @@ class Interpreter
       return nil
     end
 
+  end
+
+  # ============================================= #
+  # Statement Visits
+  # ============================================= #
+  def visit_expression_stmt(stmt)
+    evaluate(stmt.expr)
+    nil # return
+  end
+
+  def visit_print_stmt(stmt)
+    value = evaluate(stmt.expression)
+    puts(stringify(value))
+    nil # return
   end
 
 end
