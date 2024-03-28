@@ -1,4 +1,4 @@
-Rublox v1.6
+Rublox v1.7
 
 Rublox is a (partially completed) Ruby-based implementation of the Lox language as described in Crafting Interpreters by Robert Nystrom which can be found here: https://craftinginterpreters.com/
 
